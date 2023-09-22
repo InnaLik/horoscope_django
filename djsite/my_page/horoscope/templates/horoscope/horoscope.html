@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    {% for element_name in element %}
+    <li><a href="{% url 'element_name' element_name %}">{{ element_name }}</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>

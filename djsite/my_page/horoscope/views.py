@@ -19,6 +19,44 @@ zodiac_dict = {
 }
 
 
+nature_dict = {'Fire': ['aries', 'leo', 'sagittarius'], 'Earth': ['taurus', 'virgo', 'capricorn'],
+               'Air': ['gemini', 'libra', 'aquarius'],
+               'Water': ['cancer', 'scorpio', 'pisces']}
+
+zodiac_day = {'aries': [80, 110],
+    'taurus': [111, 141],
+    'gemini': [142, 172],
+    'cancer': [173, 203],
+    'leo': [204, 233],
+    'virgo': [234, 266],
+    'libra': [267, 296],
+    'scorpio': [297, 326],
+    'sagittarius': [327, 356],
+    'capricorn': [357, 20],
+    'aquarius': [21, 50],
+    'pisces': [51, 79]}
+class SignZodiac:
+    def __init__(self, name: str, element: str, about: str, day_start: int, day_finish: int):
+        self.name = name
+        self.element = element
+        self.about = about
+        self.day_start = day_start
+        self.day_finish = day_finish
+
+    def __str__(self):
+        return f'Это знак зодиака {self.name}'
+lst_zodiac = []
+for i, j in zodiac_dict.items():
+    element = ''
+    for k, q in nature_dict.items():
+        if i in q:
+            element = k
+    lst_zodiac.append(SignZodiac(i, element, j, zodiac_day[i][0], zodiac_day[i][1]))
+dictionary_zodiac = {i.name: i for i in lst_zodiac}
+
+
+
+
 def index(request):
     zodiacs = list(zodiac_dict)
     li_elements = ''
@@ -45,9 +83,7 @@ def type_horoscope(request):
     return HttpResponse(response)
 
 
-nature_dict = {'Fire': ['aries', 'leo', 'sagittarius'], 'Earth': ['taurus', 'virgo', 'capricorn'],
-               'Air': ['gemini', 'libra', 'aquarius'],
-               'Water': ['cancer', 'scorpio', 'pisces']}
+
 
 
 def nature(request, type_nature):
@@ -55,19 +91,17 @@ def nature(request, type_nature):
     for i, j in nature_dict.items():
         li = ''
         for k in j:
-            redirect_path = reverse('horoscope_name', args=(k, ))
+            redirect_path = reverse('horoscope_name', args=(k,))
             li += f'<li> <a href="{redirect_path}"> {k} </a> </li>'
-        #тут будет словарь ключом будет являться стихия, а значением html шаблон со ссылками на знаки зодиака
+        # тут будет словарь ключом будет являться стихия, а значением html шаблон со ссылками на знаки зодиака
         li_elements[i] = li
-    #соответственно тут подставляя тип стихии, я беру наш html шаблон и уже его передаю в ответ
+    # соответственно тут подставляя тип стихии, я беру наш html шаблон и уже его передаю в ответ
     answer = li_elements[type_nature]
     return HttpResponse(answer)
 
 
 def get_info_by_date(request, month, day):
     return HttpResponse
-
-
 
 
 def get_info_about_sign_zodiac(request, sign_zodiac: str):

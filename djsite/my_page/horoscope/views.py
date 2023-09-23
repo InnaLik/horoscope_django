@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
 from django.urls import reverse
+from datetime import datetime
 
 zodiac_dict = {
     'aries': 'Овен - первый знак зодиака, планета Марс (с 21 марта по 20 апреля).',
@@ -18,23 +19,25 @@ zodiac_dict = {
     'pisces': 'Рыбы - двенадцатый знак зодиака, планеты Юпитер (с 20 февраля по 20 марта).',
 }
 
-
 nature_dict = {'Fire': ['aries', 'leo', 'sagittarius'], 'Earth': ['taurus', 'virgo', 'capricorn'],
                'Air': ['gemini', 'libra', 'aquarius'],
                'Water': ['cancer', 'scorpio', 'pisces']}
 
 zodiac_day = {'aries': [80, 110],
-    'taurus': [111, 141],
-    'gemini': [142, 172],
-    'cancer': [173, 203],
-    'leo': [204, 233],
-    'virgo': [234, 266],
-    'libra': [267, 296],
-    'scorpio': [297, 326],
-    'sagittarius': [327, 356],
-    'capricorn': [357, 20],
-    'aquarius': [21, 50],
-    'pisces': [51, 79]}
+              'taurus': [111, 141],
+              'gemini': [142, 172],
+              'cancer': [173, 203],
+              'leo': [204, 233],
+              'virgo': [234, 266],
+              'libra': [267, 296],
+              'scorpio': [297, 326],
+              'sagittarius': [327, 356],
+              'capricorn': [357, 20],
+              'aquarius': [21, 50],
+              'pisces': [51, 79]
+              }
+
+
 class SignZodiac:
     def __init__(self, name: str, element: str, about: str, day_start: int, day_finish: int):
         self.name = name
@@ -45,6 +48,8 @@ class SignZodiac:
 
     def __str__(self):
         return f'Это знак зодиака {self.name}'
+
+
 lst_zodiac = []
 for i, j in zodiac_dict.items():
     element = ''
@@ -52,9 +57,9 @@ for i, j in zodiac_dict.items():
         if i in q:
             element = k
     lst_zodiac.append(SignZodiac(i, element, j, zodiac_day[i][0], zodiac_day[i][1]))
-dictionary_zodiac = {i.name: i for i in lst_zodiac}
 
 
+# dictionary_zodiac = {i.name: i for i in lst_zodiac}
 
 
 def index(request):
@@ -83,9 +88,6 @@ def type_horoscope(request):
     return HttpResponse(response)
 
 
-
-
-
 def nature(request, type_nature):
     li_elements = {}
     for i, j in nature_dict.items():
@@ -101,7 +103,23 @@ def nature(request, type_nature):
 
 
 def get_info_by_date(request, month, day):
-    return HttpResponse
+    d_m = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+    m1 = {1: 0, 2: 31, 3: 59, 4: 90, 5: 120, 6: 151, 7: 181, 8: 212, 9: 243, 10: 273, 11: 304, 12: 334}
+    if month in d_m:
+        if day <= d_m[month]:
+            number = m1[month] + day
+            for i in lst_zodiac:
+                if i.day_start <= number <= i.day_finish:
+                    uri = reverse('horoscope_name', args=(i.name,))
+                    return redirect(uri)
+                if number <= 20 or number >= 357:
+                    uri = reverse('horoscope_name', args=('capricorn', ))
+                    return redirect(uri)
+
+        else:
+            return HttpResponseNotFound('Неверно задан день месяца')
+    else:
+        return HttpResponseNotFound('Неверно задан месяц')
 
 
 def get_info_about_sign_zodiac(request, sign_zodiac: str):

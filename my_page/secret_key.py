@@ -1,0 +1,1 @@
+django_key = 'django-insecure-$wr(f4l$^m%du_)yqn9!7r#5f3^jxsn^9qfqcen5z*w+@8z=_u'

@@ -1,4 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import redirect
+from django.urls import reverse
 
 zodiac_dict = {
     'aries': 'Овен - первый знак зодиака, планета Марс (с 21 марта по 20 апреля).',
@@ -22,4 +24,7 @@ def zod(request, zodiak: str):
 
 def by_number(request, zodiak: int):
     z = list(zodiac_dict.keys())
-    return HttpResponse(f'{zodiac_dict.get(z[zodiak - 1], "Такого знака не существует")}')
+    if 1 <= zodiak <= 12:
+        uri = reverse('horoscope_name', args=(z[zodiak - 1], ))
+        return redirect(uri, permanent=True)
+    return HttpResponseNotFound(f'Был передан неправильный порядковый номер {zodiak}')

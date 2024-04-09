@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+{% for i in values_z %}
+<ul>
+  <li><a href="{% url 'horoscope_name' i %}">{{i}}</a></li>
+</ul>
+{% endfor %}
+</body>
+</html>

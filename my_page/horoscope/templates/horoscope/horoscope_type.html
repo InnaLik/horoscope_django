@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Стихия</title>
+</head>
+<body>
+{% for i in title %}
+<ul>
+  <li><a href="{% url 'type_zodiac' i %}">{{i}}</a></li>
+</ul>
+{% endfor %}
+</body>
+</html>

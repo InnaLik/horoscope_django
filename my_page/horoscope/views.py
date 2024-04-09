@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
+import datetime
 
 zodiac_dict = {
     'aries': 'Овен - первый знак зодиака, планета Марс (с 21 марта по 20 апреля).',
@@ -17,14 +18,69 @@ zodiac_dict = {
     'pisces': 'Рыбы - двенадцатый знак зодиака, планеты Юпитер (с 20 февраля по 20 марта).',
 }
 
+zodiac_month = {'aries':  [80, 110],
+    'taurus': [111, 141],
+    'gemini':  [142, 172],
+    'cancer':  [173, 203],
+    'leo':  [204, 233],
+    'virgo':  [234, 266],
+    'libra':  [267, 296],
+    'scorpio':  [297, 326],
+    'sagittarius':  [327, 356],
+    'capricorn':  [357, 20],
+    'aquarius':  [21, 50],
+    'pisces':  [51, 79]}
+
+zodiac_type = {'Fire': ['aries', 'leo', 'sagittarius'],
+               'Earth': ['taurus', 'virgo', 'capricorn'],
+               'Air': ['gemini', 'libra', 'aquarius'],
+               'Water': ['cancer', 'scorpio', 'pisces']}
+
+
+def main_type(request):
+    d = {'title': list(zodiac_type)}
+    return render(request, 'horoscope/horoscope_type.html', d)
+
+
+def horoscope_month(request, month, day):
+    d_z = ''
+    d = datetime.date(year=2023, month=month, day=day)
+    try:
+        d = datetime.date(year=2023, month=month, day=day)
+        e = d.toordinal() - 738520
+        if 20 < e < 357:
+            for i in zodiac_month:
+                if zodiac_month[i][0] <= e <= zodiac_month[i][1]:
+                    d_z = i
+                    break
+        else:
+            d_z = 'capricorn'
+        return HttpResponse(zodiac_dict[d_z])
+    except:
+        return HttpResponseNotFound('Неверный номер дня или месяца')
+def type_zodiac(request, element):
+    list_element = zodiac_type[element]
+    d = {'title': element,
+         'values_z': list_element}
+    return render(request, 'horoscope/element_zodiac.html', d)
+
 
 def zod(request, zodiak: str):
     return HttpResponse(f'{zodiac_dict.get(zodiak, "Такого знака не существует")}')
 
 
+# def main_menu(request):
+#     d = {'title': list(zodiac_dict)}
+#     return render(request, 'horoscope/main_page.html', d)
 def by_number(request, zodiak: int):
     z = list(zodiac_dict.keys())
     if 1 <= zodiak <= 12:
-        uri = reverse('horoscope_name', args=(z[zodiak - 1], ))
+        uri = reverse('horoscope_name', args=(z[zodiak - 1],))
         return redirect(uri, permanent=True)
     return HttpResponseNotFound(f'Был передан неправильный порядковый номер {zodiak}')
+
+def get_converters(request, zodiak):
+    return HttpResponse(f'{zodiak}')
+
+def float_converters(request, zodiak):
+    return HttpResponse(f'float {zodiak}')

@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 import datetime
 
@@ -66,7 +67,8 @@ def type_zodiac(request, element):
 
 
 def zod(request, zodiak: str):
-    return HttpResponse(f'{zodiac_dict.get(zodiak, "Такого знака не существует")}')
+    response = render_to_string('horoscope/info.html')
+    return HttpResponse(response)
 
 
 # def main_menu(request):
@@ -84,3 +86,5 @@ def get_converters(request, zodiak):
 
 def float_converters(request, zodiak):
     return HttpResponse(f'float {zodiak}')
+
+

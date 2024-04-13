@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% for i in title %}
+{% extends 'base.html '%}
+{% block content %}
 <ul>
-    <li><a href="{%url 'horoscope_name' i %}">{{i}}</a></li>
+    {% for i in title %}
+    <li><a href="{%url 'horoscope_name' i %}">{{i|capfirst}}</a></li>
+    {% endfor %}
 </ul>
-{% endfor %}
-</body>
-</html>
+{% endblock %}

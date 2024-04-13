@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Гороскоп</title>
-</head>
-<body>
-<h1>{{title}}</h1>
+{% extends 'base.html' %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+<h2>{{title}}</h2>
 <h3>{{info}}</h3>
-</body>
-</html>
+{% endblock %}

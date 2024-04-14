@@ -1,10 +1,11 @@
+{%load my_filter %}
 <nav>
     <a href="{% url 'main'%}">Главная</a>
     <a href="">Источник</a>
     <a href="">Обратная связь</a>
     <a href="">Контакты</a>
     <br>
-    {% for i in title %}
-    <a href="{% url 'horoscope_name' i %}">{{i}}</a>
+    {% for i, j in title.items %}
+    <a href="{% url 'horoscope_name' i %}">{{j|split_f|first_v}}</a>
     {% endfor %}
 </nav>

@@ -1,5 +1,6 @@
 {% extends 'base.html '%}
 {% load static %}
+{% load my_filter %}
 {% block st %}
 <link rel="stylesheet" href="{% static 'horoscope/css/main_page.css'%}">
 {% endblock %}
@@ -8,8 +9,8 @@
 {% include 'horoscope/includes/footer.html' %}
 <h1>Приложение гороскоп</h1>
 <ul>
-    {% for i in title %}
-    <li><h3><a href="{%url 'horoscope_name' i %}">{{i|capfirst}}</a></h3></li>
+    {% for i, j in title.items %}
+    <li><h3><a href="{%url 'horoscope_name' i %}">{{j|split_f|first_v}}</a></h3></li>
     {% endfor %}
 </ul>
 {% endblock %}

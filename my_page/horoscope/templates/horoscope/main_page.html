@@ -1,8 +1,15 @@
 {% extends 'base.html '%}
+{% load static %}
+{% block st %}
+<link rel="stylesheet" href="{% static 'horoscope/css/main_page.css'%}">
+{% endblock %}
+
 {% block content %}
+{% include 'horoscope/includes/footer.html' %}
+<h1>Приложение гороскоп</h1>
 <ul>
     {% for i in title %}
-    <li><a href="{%url 'horoscope_name' i %}">{{i|capfirst}}</a></li>
+    <li><h3><a href="{%url 'horoscope_name' i %}">{{i|capfirst}}</a></h3></li>
     {% endfor %}
 </ul>
 {% endblock %}

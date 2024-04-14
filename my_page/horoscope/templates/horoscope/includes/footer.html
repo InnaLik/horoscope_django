@@ -1,0 +1,10 @@
+<nav>
+    <a href="{% url 'main'%}">Главная</a>
+    <a href="">Источник</a>
+    <a href="">Обратная связь</a>
+    <a href="">Контакты</a>
+    <br>
+    {% for i in title %}
+    <a href="{% url 'horoscope_name' i %}">{{i}}</a>
+    {% endfor %}
+</nav>

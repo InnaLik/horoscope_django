@@ -1,6 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect, render
-from django.template.loader import render_to_string
 from django.urls import reverse
 import datetime
 
@@ -93,7 +92,6 @@ def get_converters(request, zodiak):
 
 def float_converters(request, zodiak):
     return HttpResponse(f'float {zodiak}')
-
 
 
 def people(request):

@@ -5,7 +5,7 @@ register_converter(convertors.FourDigitConverter, 'yyyy')
 register_converter(convertors.MyFloatConverter, 'my_float')
 
 urlpatterns = [
-    path('', views.main_menu),
+    path('', views.main_menu, name='main'),
     path('type/', views.main_type),
     path('type/<str:element>/', views.type_zodiac, name='type_zodiac'),
     path('people/', views.people, name='people_all'),

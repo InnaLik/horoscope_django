@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
+{%block st %}
+<link rel="stylesheet" href="{% static 'horoscope/css/info.css'%}">
+{% endblock%}
 {% block title %}{{title}}{% endblock %}
 {% block content %}
+{% include 'horoscope/includes/footer.html'%}
 <h2>{{title}}</h2>
 <h3>{{info}}</h3>
 {% endblock %}

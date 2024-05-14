@@ -1,10 +1,9 @@
 from django.test import TestCase
 
-
 # Create your tests here.
 from django.urls import reverse
 
-from movieapp.models import Movie
+from movieapp.models import Movie, Student
 
 
 class MovieModelTestCase(TestCase):
@@ -22,6 +21,17 @@ class MovieModelTestCase(TestCase):
         count = Movie.objects.count()
         print(f"{message}: #all_movies={count}")
 
+    def test_movie_delete(self):
+        # проверка удаления объекта Movie
+        movie = Movie.objects.filter(name='Test Movie').delete()
+        movie = Movie.objects.filter(name='Test Movie').count()
+        self.assertEqual(movie, 0)
+
+    def test_movie_update(self):
+        # проверка обновления обхекта
+        movie = Movie.objects.filter(name='Test Movie').update(name='Movie Test')
+        movie = Movie.objects.filter(name='Movie Test').count()
+        self.assertEqual(movie, 1)
 
     def test_movie_creation(self):
         # Проверка создания объекта Movie
@@ -74,3 +84,28 @@ class MovieModelTestCase(TestCase):
         movie = Movie.objects.create(name='Default Budget Movie', rating=75)
         self.assertEqual(movie.budget, 1000000)
         self.print_info('Finish test_movie_budget_default_value')
+
+
+# class Student(models.Model):
+#     first_name = models.CharField(max_length=50)
+#     last_name = models.CharField(max_length=50)
+#     age = models.PositiveIntegerField()
+#     email = models.EmailField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#
+
+class StudentModelTestCase(TestCase):
+    # создаем записи в бд
+    def setUp(self):
+        Student.objects.create(first_name='Inna', last_name='Lik', age=29, email='l@mail.ru')
+
+
+    def test_create(self):
+        Student.objects.create(first_name='Innaa', last_name='Lika', age=29, email='la@mail.ru')
+        count_student = Student.objects.all().count()
+        self.assertEqual(count_student, 2)
+
+    def test_student_get_all_records(self):
+        # Проверка получения всех записей из бд
+        all_student = Student.objects.all().count()
+        self.assertEqual(all_student, 1)

@@ -6,10 +6,12 @@ from movieapp.models import Movie
 admin.site.site_header = 'Наша админка'
 
 admin.site.index_title = 'Фильмы'
-
+@admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
 
     list_display = ['name', 'rating', 'year']
+    list_editable = ['rating', 'year']
+    ordering = ['-year', 'name']
+    list_per_page = 2
 
 
-admin.site.register(Movie, MovieAdmin)
